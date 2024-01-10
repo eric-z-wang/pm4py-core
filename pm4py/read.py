@@ -329,6 +329,24 @@ def read_ocel2(file_path: str, encoding: str = constants.DEFAULT_ENCODING) -> OC
         return read_ocel2_json(file_path, encoding=encoding)
 
 
+def read_ocel2_json_obj(json_obj: dict) -> OCEL:
+    """
+    Reads an OCEL2.0 event log from a JSON-OCEL(2) file
+
+    :param json_obj: JSON Object
+    :rtype: ``OCEL``
+
+    .. code-block:: python3
+
+        import pm4py
+
+        ocel = pm4py.read_ocel2_json_obj("JSON Object")
+    """
+
+    from pm4py.objects.ocel.importer.jsonocel import importer as jsonocel_importer
+    return jsonocel_importer.process_json_object(json_obj, variant=jsonocel_importer.Variants.OCEL20_STANDARD)
+
+
 def read_ocel2_json(file_path: str, encoding: str = constants.DEFAULT_ENCODING) -> OCEL:
     """
     Reads an OCEL2.0 event log from a JSON-OCEL(2) file

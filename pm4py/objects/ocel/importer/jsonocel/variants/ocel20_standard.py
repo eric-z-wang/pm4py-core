@@ -54,17 +54,14 @@ def apply(file_path: str, parameters: Optional[Dict[Any, Any]] = None) -> OCEL:
     F = open(file_path, "r", encoding=encoding)
     json_obj = json.load(F)
     F.close()
+    return process_json_object(json_obj)
 
-    legacy_obj = {}
-    legacy_obj["ocel:events"] = {}
-    legacy_obj["ocel:objects"] = {}
-    legacy_obj["ocel:objectChanges"] = []
+
+def process_json_object(json_obj: dict):
+    legacy_obj = {"ocel:events": {}, "ocel:objects": {}, "ocel:objectChanges": []}
 
     for eve in json_obj["events"]:
-        dct = {}
-        dct["ocel:activity"] = eve["type"]
-        dct["ocel:timestamp"] = eve["time"]
-        dct["ocel:vmap"] = {}
+        dct = {"ocel:activity": eve["type"], "ocel:timestamp": eve["time"], "ocel:vmap": {}}
         if "attributes" in eve and eve["attributes"]:
             dct["ocel:vmap"] = {x["name"]: x["value"] for x in eve["attributes"]}
         dct["ocel:typedOmap"] = []
@@ -74,9 +71,7 @@ def apply(file_path: str, parameters: Optional[Dict[Any, Any]] = None) -> OCEL:
         legacy_obj["ocel:events"][eve["id"]] = dct
 
     for obj in json_obj["objects"]:
-        dct = {}
-        dct["ocel:type"] = obj["type"]
-        dct["ocel:ovmap"] = {}
+        dct = {"ocel:type": obj["type"], "ocel:ovmap": {}}
         if "attributes" in obj and obj["attributes"]:
             for x in obj["attributes"]:
                 if x["name"] in dct["ocel:ovmap"]:

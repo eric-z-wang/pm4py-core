@@ -47,3 +47,8 @@ def apply(file_path: str, variant=Variants.CLASSIC, parameters: Optional[Dict[An
         Object-centric event log
     """
     return exec_utils.get_variant(variant).apply(file_path, parameters)
+
+
+def process_json_object(json: dict, variant=Variants.OCEL20_STANDARD):
+    return exec_utils.get_variant(variant).process_json_object(json)
+
