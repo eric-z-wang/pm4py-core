@@ -154,6 +154,10 @@ def apply(file_path: str, parameters: Optional[Dict[Any, Any]] = None) -> OCEL:
     json_obj = json.load(F)
     F.close()
 
+    return process_json_object(json_obj, parameters)
+
+
+def process_json_object(json_obj: dict, parameters: Optional[Dict[Any, Any]] = None):
     log = get_base_ocel(json_obj, parameters=parameters)
 
     log = ocel_consistency.apply(log, parameters=parameters)
